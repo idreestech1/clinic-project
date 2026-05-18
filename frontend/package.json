@@ -2,6 +2,7 @@
   "name": "doctor-frontend",
   "private": true,
   "version": "0.0.0",
+  "packageManager": "npm@9",
   "type": "module",
   "scripts": {
     "dev": "vite",
