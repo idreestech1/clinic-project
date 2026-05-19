@@ -15,19 +15,33 @@ import { errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
 
-const allowedOrigins = (process.env.CLIENT_ORIGIN || "http://localhost:5173")
+const configuredOrigins = [
+  process.env.CLIENT_ORIGIN,
+  process.env.FRONTEND_URL,
+  process.env.FRONTEND_ORIGIN,
+  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "",
+]
+  .join(",")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
+
+const isLoopbackOrigin = (origin) => {
+  try {
+    const { hostname } = new URL(origin);
+    return ["localhost", "127.0.0.1", "::1"].includes(hostname);
+  } catch {
+    return false;
+  }
+};
 
 app.use(
   cors({
     origin(origin, callback) {
       if (
         !origin ||
-        allowedOrigins.includes(origin) ||
-        /^http:\/\/localhost:\d+$/.test(origin) ||
-        /^http:\/\/127\.0\.0\.1:\d+$/.test(origin)
+        configuredOrigins.includes(origin) ||
+        (process.env.NODE_ENV !== "production" && isLoopbackOrigin(origin))
       ) {
         callback(null, true);
         return;
@@ -35,6 +49,7 @@ app.use(
 
       callback(new Error("Not allowed by CORS"));
     },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   })
 );
 app.use(express.json());

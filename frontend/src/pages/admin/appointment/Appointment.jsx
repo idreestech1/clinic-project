@@ -107,7 +107,6 @@ export default function Appointment() {
   const [loadError, setLoadError] = useState("");
   const [patientSearchTerm, setPatientSearchTerm] = useState("");
   const [selectedAppointment, setSelectedAppointment] = useState(null);
-  const [selectedFeeAmount, setSelectedFeeAmount] = useState(1000);
   const [appointmentActionLoading, setAppointmentActionLoading] =
     useState(false);
   const [actionError, setActionError] = useState("");
@@ -127,12 +126,6 @@ export default function Appointment() {
 
     loadAppointments();
   }, []);
-
-  useEffect(() => {
-    if (selectedAppointment) {
-      setSelectedFeeAmount(1000);
-    }
-  }, [selectedAppointment]);
 
   const displayAppointments = useMemo(() => {
     if (!liveAppointments.length) return [];
@@ -287,15 +280,6 @@ export default function Appointment() {
       paymentStatus,
       feeAmount: 1000,
     });
-  };
-
-  const handleFeeAmountChange = (value) => {
-    const amount = Number(value);
-    if (Number.isNaN(amount) || amount < 0) {
-      setSelectedFeeAmount(0);
-      return;
-    }
-    setSelectedFeeAmount(amount);
   };
 
   const printAppointmentReceipt = (appointment) => {

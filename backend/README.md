@@ -9,11 +9,13 @@ npm install
 npm run dev
 ```
 
-Default API URL:
+Required environment variables:
 
-```text
-http://localhost:5000/api
-```
+- `MONGODB_URI`
+- `CLIENT_ORIGIN`
+- `PORT`
+
+For Render/Railway, set `NODE_ENV=production`, `MONGODB_URI`, and `CLIENT_ORIGIN` to the deployed frontend URL. The server binds to `0.0.0.0` by default for hosted platforms.
 
 ## Endpoints
 

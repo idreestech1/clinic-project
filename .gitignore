@@ -11,10 +11,13 @@ node_modules
 .vite
 dist
 dist-ssr
+coverage
 *.local
 .env
 backend/.env
 frontend/.env
+frontend/.env.production
+backend/data/*.json
 
 # Editor directories and files
 .vscode/*

@@ -3,13 +3,6 @@ import { api } from "../../../api/client";
 import "../shared/AdminSection.css";
 import "./Services.css";
 
-const serviceStats = [
-  { label: "Active Services", value: "12", note: "8 visible on website" },
-  { label: "Monthly Requests", value: "486", note: "+18% from last month" },
-  { label: "Avg. Fee", value: "$92", note: "Across clinical services" },
-  { label: "Featured", value: "4", note: "Shown on home page" },
-];
-
 const services = [
   { name: "General Consultation", category: "Primary Care", duration: "10 min", price: "$60", status: "Live" },
   { name: "Diabetes Follow-up", category: "Chronic Care", duration: "20 min", price: "$85", status: "Live" },

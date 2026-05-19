@@ -3,10 +3,18 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "npm --prefix backend run dev",
     "frontend:dev": "npm --prefix frontend run dev",
     "frontend:build": "npm --prefix frontend run build",
     "frontend:preview": "npm --prefix frontend run preview",
     "backend:dev": "npm --prefix backend run dev",
-    "backend:start": "npm --prefix backend start"
+    "backend:start": "npm --prefix backend start",
+    "build": "npm --prefix frontend run build",
+    "start": "npm --prefix backend start",
+    "install:all": "npm install --prefix frontend && npm install --prefix backend"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

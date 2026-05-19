@@ -5,6 +5,7 @@ import { connectDatabase } from "./config/database.js";
 import { seedDatabase } from "./config/seed.js";
 
 const port = Number(process.env.PORT) || 5000;
+const host = process.env.HOST || "0.0.0.0";
 
 const startServer = async () => {
   try {
@@ -15,8 +16,8 @@ const startServer = async () => {
       console.warn("Seeding failed:", seedErr.message);
     }
 
-    app.listen(port, () => {
-      console.log(`Doctor backend running on http://localhost:${port}`);
+    app.listen(port, host, () => {
+      console.log(`Doctor backend listening on port ${port}`);
     });
   } catch (err) {
     console.error("Failed to start backend:", err.message);

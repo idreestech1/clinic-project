@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   AreaChart,
   Area,
@@ -92,27 +92,6 @@ const formatBookedAt = (value) => {
 
 const formatCurrency = (value) =>
   `${Number(value || 0).toLocaleString("en-PK")} PKR`;
-
-const matchesAppointmentSearch = (appointment, query) => {
-  const term = query.trim().toLowerCase();
-
-  if (!term) return true;
-
-  return [
-    appointment.name,
-    appointment.phone,
-    appointment.email,
-    appointment.notes,
-    appointment.type,
-    appointment.date,
-    appointment.time,
-    appointment.status,
-    appointment.paymentStatus,
-    appointment.feeAmount,
-  ]
-    .filter((value) => value !== undefined && value !== null)
-    .some((value) => String(value).toLowerCase().includes(term));
-};
 
 function FinancePanel({ appointments = [], onSelectAppointment = () => {} }) {
   const totalBilled = appointments.reduce(
@@ -357,28 +336,6 @@ export default function Dashboard({ onAdminLogout = () => {} }) {
   const activityLabel =
     dashboardData?.activityReport?.label ||
     "Live activity for the selected period";
-  const appointments = useMemo(
-    () =>
-      dashboardData?.recentAppointments?.length
-        ? dashboardData.recentAppointments.map((appointment) => ({
-            id: appointment.id,
-            name: appointment.name,
-            phone: appointment.phone,
-            email: appointment.email,
-            type: appointment.notes || "Clinic Appointment",
-            notes: appointment.notes || "",
-            date: appointment.date,
-            time: appointment.time,
-            status: appointment.status?.toUpperCase() || "CONFIRMED",
-            feeAmount: appointment.feeAmount ?? 1000,
-            paymentStatus: appointment.paymentStatus || "unpaid",
-            paidAt: appointment.paidAt,
-            createdAt: appointment.createdAt,
-            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(appointment.name)}&background=1a6fd4&color=fff`,
-          }))
-        : [],
-    [dashboardData],
-  );
   const doctors = dashboardData?.doctors?.length
     ? dashboardData.doctors
     : [
@@ -422,34 +379,6 @@ export default function Dashboard({ onAdminLogout = () => {} }) {
     0,
   );
   const latestContactMessages = dashboardData?.latestContactMessages || [];
-
-  const getStatusTheme = (status) => {
-    switch (status) {
-      case "COMPLETED":
-      case "DONE":
-        return { background: "#dcfce7", color: "#16a34a" };
-      case "CONFIRMED":
-      case "LIVE":
-        return { background: "#dcfce7", color: "#15803d" };
-      case "CANCELLED":
-        return { background: "#fee2e2", color: "#dc2626" };
-      default:
-        return { background: "#f1f5f9", color: "#6a7a8a" };
-    }
-  };
-
-  const getStatusRowClass = (status) => {
-    switch (String(status || "").toLowerCase()) {
-      case "confirmed":
-        return "dash-modal__table-row--confirmed";
-      case "completed":
-        return "dash-modal__table-row--completed";
-      case "cancelled":
-        return "dash-modal__table-row--cancelled";
-      default:
-        return "";
-    }
-  };
 
   return (
     <div

@@ -3,13 +3,6 @@ import { api } from "../../../api/client";
 import "../shared/AdminSection.css";
 import "./Gallery.css";
 
-const galleryStats = [
-  { label: "Total Assets", value: "68", note: "Images and clinic media" },
-  { label: "Website Visible", value: "24", note: "Published publicly" },
-  { label: "Storage Used", value: "1.8GB", note: "42% of plan" },
-  { label: "Pending Review", value: "6", note: "Need approval" },
-];
-
 const galleryItems = [
   { title: "Consultation Room", tag: "Clinic Interior", status: "Active", image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&q=80" },
   { title: "Reception Desk", tag: "Front Office", status: "Active", image: "https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=600&q=80" },
