@@ -28,10 +28,10 @@ const stats = [
     iconBg: "icon-green",
   },
   {
-    icon: "⭐",
-    label: "PATIENT RATING",
-    value: "4.9",
-    badge: "4.9/5",
+    icon: "📆",
+    label: "UPCOMING APPOINTMENTS",
+    value: "4",
+    badge: "Next 50",
     badgeColor: "badge-blue",
     iconBg: "icon-gray",
   },
@@ -445,18 +445,20 @@ export default function Appointment() {
         return {
           ...item,
           value: String(
-            displayAppointments.filter((a) => a.status !== "CONFIRMED")
-              .length || item.value,
+            displayAppointments.filter(
+              (a) => a.status?.toUpperCase() === "PENDING"
+            ).length || item.value,
           ),
         };
       if (item.label === "NEW PATIENTS")
         return {
           ...item,
           value: String(
-            new Set(displayAppointments.map((a) => a.email)).size || item.value,
+            new Set(displayAppointments.map((a) => a.email).filter(Boolean)).size ||
+              item.value,
           ),
         };
-      if (item.label === "PATIENT RATING")
+      if (item.label === "UPCOMING APPOINTMENTS")
         return {
           ...item,
           value: String(upcomingAppointments.length || item.value),
@@ -656,7 +658,6 @@ export default function Appointment() {
             </div>
           </div>
         </div>
-
       </section>
 
       {/* Appointment Details Modal */}

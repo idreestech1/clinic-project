@@ -259,27 +259,17 @@
 }
 
 /* ═══════════════════════════════════════════
-   MAIN CONTENT LAYOUT
+   MAIN CONTENT (now block, left column full width)
 ═══════════════════════════════════════════ */
 .appt-main-content {
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 22px;
-  align-items: flex-start;
+  display: block;
+  width: 100%;
 }
 
 .appt-left-column {
   display: flex;
   flex-direction: column;
   gap: 22px;
-}
-
-.appt-right-column {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  position: sticky;
-  top: 24px;
 }
 
 /* ═══════════════════════════════════════════
@@ -312,8 +302,6 @@
   vertical-align: middle;
   margin-right: 10px;
 }
-
-.appt-accent-orange { background: #f97316; }
 
 .appt-section-title {
   font-family: var(--font-display);
@@ -516,13 +504,6 @@
 .appt-payment-unpaid  { background: var(--red-50);    color: var(--red-600);   border: 1px solid var(--red-100); }
 .appt-payment-pending { background: var(--amber-50);  color: var(--amber-600); border: 1px solid var(--amber-100); }
 
-.appt-item-fee {
-  font-family: var(--font-display);
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--blue-600);
-}
-
 /* Action buttons in list */
 .appt-item-actions {
   display: flex;
@@ -651,197 +632,6 @@
 .appt-btn-view-all:hover {
   background: var(--blue-50);
   color: var(--blue-700);
-}
-
-/* ═══════════════════════════════════════════
-   PATIENT HISTORY CARD
-═══════════════════════════════════════════ */
-.appt-patient-history-card {
-  background: var(--slate-0);
-  border-radius: var(--radius-xl);
-  padding: 22px 20px;
-  border: 1px solid var(--slate-200);
-  box-shadow: var(--shadow-sm);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-height: 580px;
-  overflow-y: auto;
-}
-
-.appt-patient-history-card::-webkit-scrollbar { width: 5px; }
-.appt-patient-history-card::-webkit-scrollbar-track { background: var(--slate-100); border-radius: 5px; }
-.appt-patient-history-card::-webkit-scrollbar-thumb { background: var(--slate-300); border-radius: 5px; }
-
-.appt-history-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.appt-history-subtitle {
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--slate-400);
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-
-.appt-history-title {
-  font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 800;
-  color: var(--slate-900);
-  letter-spacing: -0.01em;
-}
-
-.appt-btn-clear-history {
-  background: var(--slate-100);
-  border: 1px solid var(--slate-200);
-  padding: 5px 12px;
-  border-radius: var(--radius-sm);
-  font-family: var(--font-display);
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--slate-500);
-  cursor: pointer;
-  transition: all var(--transition);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.appt-btn-clear-history:hover {
-  background: var(--red-50);
-  border-color: var(--red-600);
-  color: var(--red-600);
-}
-
-.appt-history-summary {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.appt-history-stat {
-  background: var(--slate-50);
-  border: 1px solid var(--slate-150);
-  border-radius: var(--radius-md);
-  padding: 12px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.appt-history-stat-value {
-  font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 800;
-  color: var(--blue-600);
-  word-break: break-all;
-}
-
-.appt-history-stat-label {
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: var(--slate-400);
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-}
-
-.appt-history-list-container { flex: 1; overflow-y: auto; }
-
-.appt-history-list { display: flex; flex-direction: column; gap: 8px; }
-
-.appt-history-item {
-  display: grid;
-  grid-template-columns: 90px 1fr auto;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 12px 14px;
-  background: var(--slate-50);
-  border: 1px solid var(--slate-150);
-  border-radius: var(--radius-md);
-  transition: background var(--transition);
-}
-
-.appt-history-item:hover { background: var(--blue-50); border-color: var(--blue-100); }
-
-.appt-history-item-date { display: flex; flex-direction: column; gap: 2px; }
-
-.appt-history-date {
-  font-family: var(--font-display);
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--slate-700);
-}
-
-.appt-history-time {
-  font-size: 0.7rem;
-  color: var(--slate-400);
-}
-
-.appt-history-item-info { flex: 1; min-width: 0; }
-
-.appt-history-type {
-  font-family: var(--font-display);
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--slate-800);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.appt-history-notes {
-  font-size: 0.72rem;
-  color: var(--slate-400);
-  margin-top: 3px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.appt-history-item-meta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-  flex-shrink: 0;
-}
-
-.appt-history-status {
-  font-family: var(--font-display);
-  font-size: 0.62rem;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 5px;
-  text-transform: uppercase;
-}
-
-.appt-history-fee {
-  font-family: var(--font-display);
-  font-size: 0.78rem;
-  font-weight: 800;
-  color: var(--blue-600);
-}
-
-/* Empty state */
-.appt-empty-state {
-  padding: 48px 24px;
-  text-align: center;
-  color: var(--slate-400);
-  font-size: 0.88rem;
-  line-height: 1.6;
-}
-
-.appt-history-empty {
-  padding: 32px 16px;
-  font-size: 0.83rem;
-  color: var(--slate-400);
-  text-align: center;
-  line-height: 1.65;
 }
 
 /* ═══════════════════════════════════════════
@@ -1121,6 +911,246 @@
 .appt-footer-links a:hover { color: var(--blue-600); }
 
 /* ═══════════════════════════════════════════
+   PREMIUM PATIENT HISTORY MODAL STYLES
+═══════════════════════════════════════════ */
+.appt-history-modal-dialog {
+  width: min(780px, 94%);
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--slate-0);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--slate-200);
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.appt-history-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: linear-gradient(135deg, var(--blue-50) 0%, var(--slate-50) 100%);
+  border: 1px solid var(--slate-150);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.appt-history-avatar-large {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--blue-600);
+  color: var(--slate-0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  box-shadow: var(--shadow-md);
+  border: 3px solid var(--slate-0);
+}
+
+.appt-history-profile-info h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--slate-900);
+  margin-bottom: 4px;
+}
+
+.appt-history-profile-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 0.8rem;
+  color: var(--slate-500);
+  font-weight: 600;
+}
+
+.appt-history-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.appt-history-stat {
+  background: var(--slate-50);
+  border: 1px solid var(--slate-150);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: all var(--transition);
+  min-width: 0;
+}
+
+.appt-history-stat:hover {
+  background: var(--slate-0);
+  border-color: var(--blue-500);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.appt-history-stat-value {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--blue-600);
+}
+
+.appt-history-stat-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--slate-400);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.appt-history-modal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.appt-history-modal-list::-webkit-scrollbar {
+  width: 5px;
+}
+.appt-history-modal-list::-webkit-scrollbar-track {
+  background: var(--slate-100);
+  border-radius: 99px;
+}
+.appt-history-modal-list::-webkit-scrollbar-thumb {
+  background: var(--slate-300);
+  border-radius: 99px;
+}
+
+.appt-history-card-item {
+  position: relative;
+  background: var(--slate-0);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all var(--transition);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.appt-history-card-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--blue-600);
+  border-radius: 99px;
+  opacity: 0;
+  transition: all var(--transition);
+}
+
+.appt-history-card-item:hover {
+  transform: translateY(-1px);
+  border-color: var(--blue-500);
+  box-shadow: var(--shadow-md);
+}
+
+.appt-history-card-item:hover::before {
+  opacity: 1;
+}
+
+.appt-history-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.appt-history-card-date {
+  display: flex;
+  gap: 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.appt-history-card-day {
+  color: var(--slate-700);
+}
+
+.appt-history-card-time {
+  color: var(--slate-400);
+}
+
+.appt-history-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.appt-history-card-service {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--slate-900);
+  overflow-wrap: anywhere;
+}
+
+.appt-history-card-notes {
+  font-size: 0.78rem;
+  color: var(--slate-600);
+  background: var(--slate-50);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--slate-300);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.appt-history-card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid var(--slate-100);
+  padding-top: 10px;
+  margin-top: 2px;
+  min-width: 0;
+}
+
+.appt-history-card-fee {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--blue-600);
+}
+
+.appt-history-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.appt-history-actions-row button {
+  padding: 5px 10px;
+  font-size: 0.7rem;
+  border-radius: var(--radius-sm);
+}
+
+/* ═══════════════════════════════════════════
    ANIMATIONS
 ═══════════════════════════════════════════ */
 @keyframes fadeIn  { from { opacity: 0; }                      to { opacity: 1; } }
@@ -1131,18 +1161,6 @@
 ═══════════════════════════════════════════ */
 @media (max-width: 1280px) {
   .appt-stats-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-/* ═══════════════════════════════════════════
-   RESPONSIVE LAYOUT REFIT
-   ═══════════════════════════════════════════ */
-.appt-main-content {
-  display: block;
-  width: 100%;
-}
-
-.appt-left-column {
-  width: 100%;
 }
 
 @media (max-width: 1024px) {
@@ -1208,242 +1226,7 @@
   .appt-history-summary { grid-template-columns: 1fr; }
   .appt-dash-footer { padding: 16px; flex-direction: column; align-items: flex-start; }
   .appt-footer-links { flex-wrap: wrap; gap: 12px; }
-}
 
-/* ═══════════════════════════════════════════
-   PREMIUM PATIENT HISTORY MODAL STYLES
-   ═══════════════════════════════════════════ */
-.appt-history-modal-dialog {
-  width: min(780px, 94%);
-  max-height: 85vh;
-  overflow-y: auto;
-  background: var(--slate-0);
-  border-radius: var(--radius-2xl);
-  box-shadow: var(--shadow-xl);
-  border: 1px solid var(--slate-200);
-  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.appt-history-profile-card {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  background: linear-gradient(135deg, var(--blue-50) 0%, var(--slate-50) 100%);
-  border: 1px solid var(--slate-150);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.appt-history-avatar-large {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--blue-600);
-  color: var(--slate-0);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 800;
-  box-shadow: var(--shadow-md);
-  border: 3px solid var(--slate-0);
-}
-
-.appt-history-profile-info h3 {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: var(--slate-900);
-  margin-bottom: 4px;
-}
-
-.appt-history-profile-details {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  font-size: 0.8rem;
-  color: var(--slate-500);
-  font-weight: 600;
-}
-
-.appt-history-summary {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  margin-bottom: 24px;
-}
-
-.appt-history-stat {
-  background: var(--slate-50);
-  border: 1px solid var(--slate-150);
-  border-radius: var(--radius-lg);
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  transition: all var(--transition);
-}
-
-.appt-history-stat:hover {
-  background: var(--slate-0);
-  border-color: var(--blue-500);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
-}
-
-.appt-history-stat-value {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 900;
-  color: var(--blue-600);
-}
-
-.appt-history-stat-label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--slate-400);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.appt-history-modal-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-height: 380px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.appt-history-modal-list::-webkit-scrollbar {
-  width: 5px;
-}
-.appt-history-modal-list::-webkit-scrollbar-track {
-  background: var(--slate-100);
-  border-radius: 99px;
-}
-.appt-history-modal-list::-webkit-scrollbar-thumb {
-  background: var(--slate-300);
-  border-radius: 99px;
-}
-
-.appt-history-card-item {
-  position: relative;
-  background: var(--slate-0);
-  border: 1px solid var(--slate-200);
-  border-radius: var(--radius-lg);
-  padding: 16px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  transition: all var(--transition);
-  overflow: hidden;
-}
-
-.appt-history-card-item::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: var(--blue-600);
-  border-radius: 99px;
-  opacity: 0;
-  transition: all var(--transition);
-}
-
-.appt-history-card-item:hover {
-  transform: translateY(-1px);
-  border-color: var(--blue-500);
-  box-shadow: var(--shadow-md);
-}
-
-.appt-history-card-item:hover::before {
-  opacity: 1;
-}
-
-.appt-history-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-
-.appt-history-card-date {
-  display: flex;
-  gap: 12px;
-  font-size: 0.78rem;
-  font-weight: 700;
-}
-
-.appt-history-card-day {
-  color: var(--slate-700);
-}
-
-.appt-history-card-time {
-  color: var(--slate-400);
-}
-
-.appt-history-card-body {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.appt-history-card-service {
-  font-family: var(--font-display);
-  font-size: 0.88rem;
-  font-weight: 800;
-  color: var(--slate-900);
-}
-
-.appt-history-card-notes {
-  font-size: 0.78rem;
-  color: var(--slate-600);
-  background: var(--slate-50);
-  padding: 10px 14px;
-  border-radius: var(--radius-md);
-  border-left: 3px solid var(--slate-300);
-  line-height: 1.5;
-}
-
-.appt-history-card-footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  border-top: 1px solid var(--slate-100);
-  padding-top: 10px;
-  margin-top: 2px;
-}
-
-.appt-history-card-fee {
-  font-family: var(--font-display);
-  font-size: 0.8rem;
-  font-weight: 800;
-  color: var(--blue-600);
-}
-
-.appt-history-actions-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.appt-history-actions-row button {
-  padding: 5px 10px;
-  font-size: 0.7rem;
-  border-radius: var(--radius-sm);
-}
-
-/* ═══════════════════════════════════════════
-   RESPONSIVE PATIENT HISTORY DETAILS REFIT
-   ═══════════════════════════════════════════ */
-@media (max-width: 640px) {
   .appt-history-profile-card {
     flex-direction: column;
     text-align: center;
@@ -1451,33 +1234,23 @@
     padding: 16px;
     gap: 12px;
   }
-  
   .appt-history-profile-details {
     justify-content: center;
   }
-  
-  .appt-history-summary {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
   .appt-history-card-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
-
   .appt-history-card-footer {
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
   }
-
   .appt-history-actions-row {
     width: 100%;
     justify-content: flex-start;
   }
-
   .appt-history-card-footer .appt-payment-badge {
     align-self: flex-start;
   }
