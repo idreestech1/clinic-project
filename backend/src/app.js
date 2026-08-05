@@ -1,4 +1,5 @@
 import cors from "cors";
+import { databaseMiddleware } from "./config/database.js";
 import express from "express";
 import appointmentsRouter from "./routes/appointments.routes.js";
 import authRouter from "./routes/auth.routes.js";
@@ -64,6 +65,7 @@ app.use(
   })
 );
 
+app.use(databaseMiddleware);
 app.use(express.json());
 
 app.get("/api/health", (_req, res) => {

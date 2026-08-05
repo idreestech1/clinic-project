@@ -1,9 +1,14 @@
 import mongoose from "mongoose";
 
-// Disable mongoose command buffering so queries fail fast if not connected
+// Disable command buffering so queries fail fast if not connected
 mongoose.set("bufferCommands", false);
+// Increase buffer timeout from default 10 s to 30 s to give serverless cold starts more time
+mongoose.set("bufferTimeoutMS", 30000);
+
+let isConnected = false;
 
 export const connectDatabase = async () => {
+  if (isConnected) return;
   const mongoUri = process.env.MONGODB_URI;
 
   if (!mongoUri) {
@@ -20,6 +25,7 @@ export const connectDatabase = async () => {
 
   await mongoose.connect(mongoUri, options);
   console.log("MongoDB connected");
+  isConnected = true;
 
   // Log connection events for debugging
   mongoose.connection.on("error", (err) => {
@@ -27,8 +33,18 @@ export const connectDatabase = async () => {
   });
   mongoose.connection.on("disconnected", () => {
     console.warn("MongoDB disconnected");
+    isConnected = false;
   });
   mongoose.connection.once("open", () => {
     console.info("MongoDB connection is open");
   });
+};
+
+export const databaseMiddleware = async (req, res, next) => {
+  try {
+    await connectDatabase();
+    next();
+  } catch (error) {
+    next(error);
+  }
 };
