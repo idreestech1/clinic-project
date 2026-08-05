@@ -14,7 +14,14 @@ export const register = async (req, res, next) => {
       throw error;
     }
 
-    const existing = await User.findOne({ email: email.trim().toLowerCase() });
+    // 15 s timeout wrapper for the DB call – fail fast on Vercel cold starts
+    const dbTimeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Database query timed out')), 15000)
+    );
+    const existingPromise = User.findOne({ email: email.trim().toLowerCase() })
+      .select('_id') // only need existence check
+      .lean();
+    const existing = await Promise.race([existingPromise, dbTimeout]);
     if (existing) {
       const error = new Error("An account with this email already exists.");
       error.statusCode = 409;

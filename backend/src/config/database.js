@@ -2,13 +2,16 @@ import mongoose from "mongoose";
 
 // Disable command buffering so queries fail fast if not connected
 mongoose.set("bufferCommands", false);
-// Increase buffer timeout from default 10 s to 30 s to give serverless cold starts more time
+// Set buffer timeout to 30 s (adjust as needed)
 mongoose.set("bufferTimeoutMS", 30000);
 
 let isConnected = false;
 
 export const connectDatabase = async () => {
-  if (isConnected) return;
+  // Reuse existing connection if already connected
+  if (mongoose.connection && mongoose.connection.readyState === 1) {
+    return;
+  }
   const mongoUri = process.env.MONGODB_URI;
 
   if (!mongoUri) {
@@ -16,8 +19,7 @@ export const connectDatabase = async () => {
   }
 
   // Use robust connection options
-  const options = {
-    serverSelectionTimeoutMS: 30000, // 30 s timeout for server selection
+  const options = { serverSelectionTimeoutMS: 30000, // 30 s timeout for server selection
     socketTimeoutMS: 45000,
   };
 
