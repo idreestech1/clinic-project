@@ -4,7 +4,6 @@ import mongoose from "mongoose";
 mongoose.set("bufferCommands", false);
 mongoose.set("bufferTimeoutMS", 60000);
 
-
 // Disable automatic index creation in production (makes cold start faster)
 mongoose.set("autoIndex", false);
 
@@ -12,12 +11,6 @@ const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-  },
-  { timestamps: true, versionKey: false }
-);
-
-// Explicit index for email (used by findOne)
-userSchema.index({ email: 1 });
     passwordHash: { type: String, required: true },
     role: { type: String, enum: ["patient", "admin", "doctor"], default: "patient" },
     phone: { type: String, default: "", trim: true },
@@ -26,6 +19,9 @@ userSchema.index({ email: 1 });
   },
   { timestamps: true, versionKey: false }
 );
+
+// Explicit index for email (used by findOne)
+userSchema.index({ email: 1 });
 
 userSchema.set("toJSON", {
   transform: (_doc, ret) => {
