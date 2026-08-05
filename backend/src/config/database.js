@@ -1,61 +1,62 @@
 import mongoose from "mongoose";
 
-let cached = global.mongoose;
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+// Global cache for server‑less environments (Vercel)
+if (!global.__mongoCache) {
+  global.__mongoCache = { conn: null, promise: null };
 }
+const cache = global.__mongoCache;
+
+// Apply mongoose settings before any connection is attempted
+mongoose.set("bufferCommands", false);
+mongoose.set("strictQuery", true);
 
 /**
- * Connect to MongoDB using a global cache so that server‑less functions
- * (e.g., Vercel) reuse the same connection across invocations.
+ * Connect to MongoDB using a cached connection. Subsequent Vercel function
+ * invocations reuse the same connection, avoiding repeated handshakes and
+ * preventing buffering timeouts.
  */
-export const connectDB = async () => {
-  if (cached.conn) {
-    return cached.conn;
+export const connectDatabase = async () => {
+  // Return an existing connection if we already have one
+  if (cache.conn) {
+    return cache.conn;
   }
 
-  if (!cached.promise) {
-    const mongoUri = process.env.MONGODB_URI;
+  // If a connection attempt is already in progress, reuse the promise
+  if (!cache.promise) {
+    const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI;
     if (!mongoUri) {
       console.error("MONGODB_URI environment variable is missing!");
       throw new Error("MONGODB_URI environment variable is missing.");
     }
 
     const opts = {
-      // Disable command buffering – fail fast if not connected
-      bufferCommands: false,
-      // Short server selection timeout for rapid failure on network issues
-      serverSelectionTimeoutMS: 5000,
-      // Socket timeout for long‑running queries
+      // Give Vercel a bit more time for cold‑start connections
+      serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 45000,
     };
 
-    cached.promise = mongoose.connect(mongoUri, opts).then((m) => {
-      console.log("MongoDB connected successfully");
+    cache.promise = mongoose.connect(mongoUri, opts).then((m) => {
+      console.log("MongoDB connected (cached)");
       return m;
     });
   }
 
   try {
-    cached.conn = await cached.promise;
+    cache.conn = await cache.promise;
   } catch (err) {
-    // Reset promise so a future retry can attempt reconnection
-    cached.promise = null;
+    // Reset promise so a later retry can attempt reconnection
+    cache.promise = null;
     console.error("Error connecting to MongoDB:", err.message);
     throw err;
   }
 
-  return cached.conn;
+  return cache.conn;
 };
 
-// Keep the original name for backward compatibility
-export const connectDatabase = connectDB;
-
-/** Middleware to ensure a DB connection before handling each request */
+/** Middleware that guarantees a DB connection before handling each request */
 export const databaseMiddleware = async (req, res, next) => {
   try {
-    await connectDB();
+    await connectDatabase();
     next();
   } catch (err) {
     console.error("Database Middleware Error:", err.message);
