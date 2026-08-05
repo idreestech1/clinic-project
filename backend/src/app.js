@@ -76,6 +76,7 @@ app.get("/api/health", (_req, res) => {
 
 app.use("/api/appointments", appointmentsRouter);
 app.use("/api/auth", authRouter);
+app.use("/auth", authRouter); // Alias for Vercel direct auth route
 app.use("/api/contact", contactRouter);
 app.use("/api/dashboard", dashboardRouter);
 app.use("/api/doctors", doctorsRouter);
