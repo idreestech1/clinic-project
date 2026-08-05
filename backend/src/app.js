@@ -20,6 +20,10 @@ const configuredOrigins = [
   process.env.FRONTEND_URL,
   process.env.FRONTEND_ORIGIN,
   process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
 ]
   .join(",")
   .split(",")
@@ -38,8 +42,12 @@ const isLoopbackOrigin = (origin) => {
 app.use(
   cors({
     origin(origin, callback) {
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+
       if (
-        !origin ||
         configuredOrigins.includes(origin) ||
         (process.env.NODE_ENV !== "production" && isLoopbackOrigin(origin))
       ) {
@@ -50,8 +58,11 @@ app.use(
       callback(new Error("Not allowed by CORS"));
     },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 app.use(express.json());
 
 app.get("/api/health", (_req, res) => {

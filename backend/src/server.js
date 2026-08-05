@@ -3,10 +3,12 @@ dotenv.config();
 import app from "./app.js";
 import { connectDatabase } from "./config/database.js";
 import { seedDatabase } from "./config/seed.js";
+import cors from "cors";
 
 const port = Number(process.env.PORT) || 5000;
 const host = process.env.HOST || "0.0.0.0";
 
+app.use(cors())
 const startServer = async () => {
   try {
     await connectDatabase();
