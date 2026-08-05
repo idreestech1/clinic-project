@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config(); // ensure .env is loaded in local dev
 
 // Global cache for server‑less environments (Vercel)
 if (!global.__mongoCache) {
@@ -6,7 +8,7 @@ if (!global.__mongoCache) {
 }
 const cache = global.__mongoCache;
 
-// Apply mongoose settings before any connection is attempted
+// Apply mongoose settings before any connection attempt
 mongoose.set("bufferCommands", false);
 mongoose.set("strictQuery", true);
 
@@ -30,9 +32,9 @@ export const connectDatabase = async () => {
     }
 
     const opts = {
-      // Give Vercel a bit more time for cold‑start connections
-      serverSelectionTimeoutMS: 10000,
-      socketTimeoutMS: 45000,
+      // Give Vercel more time for cold‑start connections
+      serverSelectionTimeoutMS: 20000,
+      socketTimeoutMS: 60000,
     };
 
     cache.promise = mongoose.connect(mongoUri, opts).then((m) => {
