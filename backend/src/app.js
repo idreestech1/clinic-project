@@ -41,20 +41,21 @@ const isLoopbackOrigin = (origin) => {
 
 app.use(
   cors({
-    origin(origin, callback) {
+    origin: (origin, callback) => {
+      // Allow all origins in development for easier testing
+      if (process.env.NODE_ENV !== "production") {
+        callback(null, true);
+        return;
+      }
+      // In production, only allow configured origins or loopback addresses
       if (!origin) {
         callback(null, true);
         return;
       }
-
-      if (
-        configuredOrigins.includes(origin) ||
-        (process.env.NODE_ENV !== "production" && isLoopbackOrigin(origin))
-      ) {
+      if (configuredOrigins.includes(origin) || isLoopbackOrigin(origin)) {
         callback(null, true);
         return;
       }
-
       callback(new Error("Not allowed by CORS"));
     },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
