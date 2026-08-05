@@ -56,14 +56,30 @@ export const login = async (req, res, next) => {
       return;
     }
 
-    const user = await User.findOne({ email: normalizedEmail });
+    // 15 s timeout wrapper for the DB call – fail fast on Vercel cold starts
+    const dbTimeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Database query timed out')), 15000)
+    );
+    const fetchUser = User.findOne({ email: normalizedEmail })
+      .select('_id name email role avatar status') // only needed fields
+      .lean();
+    const user = await Promise.race([fetchUser, dbTimeout]);
     if (!user || !(await verifyPassword(password, user.passwordHash))) {
-      const error = new Error("Invalid email or password.");
+      const error = new Error('Invalid email or password.');
       error.statusCode = 401;
       throw error;
     }
 
-    res.json({ user: user.toJSON() });
+    // Convert lean object to the shape expected by the client (remove passwordHash, add id)
+    const userResponse = {
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      avatar: user.avatar,
+      status: user.status,
+    };
+    res.json({ user: userResponse });
   } catch (err) {
     next(err);
   }
