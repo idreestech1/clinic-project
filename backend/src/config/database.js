@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-dotenv.config(); // ensure .env is loaded in local dev
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const envPath = path.resolve(__dirname, "../../.env");
+dotenv.config({ path: envPath });
 
 // Global cache for server‑less environments (Vercel)
 if (!global.__mongoCache) {
@@ -27,8 +32,8 @@ export const connectDatabase = async () => {
   if (!cache.promise) {
     const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI;
     if (!mongoUri) {
-      console.error("MONGODB_URI environment variable is missing!");
-      throw new Error("MONGODB_URI environment variable is missing.");
+      console.error("MongoDB connection URI is missing! Please set MONGODB_URI or MONGO_URI in .env.");
+      throw new Error("MongoDB connection URI is missing.");
     }
 
     const opts = {
