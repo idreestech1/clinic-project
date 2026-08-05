@@ -1,5 +1,10 @@
 import mongoose from "mongoose";
 
+// Apply buffering settings before any schema is defined
+mongoose.set("bufferCommands", false);
+mongoose.set("bufferTimeoutMS", 60000);
+
+
 // Disable automatic index creation in production (makes cold start faster)
 mongoose.set("autoIndex", false);
 
